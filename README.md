@@ -1,6 +1,6 @@
 # Webpack file alias plugin
 
-Use this plugin to specify aliases for single or multiple files in your `webpack.config.js` and optionally define alias extractors for specific files (e.g. `paths` in `tsconfig.json`, or `moduleAliases` in `package.json`)
+Use this plugin to specify aliases for single or multiple files and optionally define alias extractors for specific files (e.g. `paths` in `tsconfig.json`, or `moduleAliases` in `package.json`)
 
 ## Why?
 
