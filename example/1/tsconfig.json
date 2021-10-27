@@ -1,0 +1,12 @@
+{
+  "typeAcquisition": {},
+  "references": [],
+  "buildOptions": {},
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["packages/*"],
+      "@bar": ["packages/bar"]
+    }
+  }
+}

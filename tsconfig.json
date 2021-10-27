@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": ["ESNext", "ES6"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "./build/dist/lib"
+  },
+  "include": ["src"]
+}
