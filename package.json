@@ -5,9 +5,14 @@
   "version": "1.0.3",
   "main": "build/dist/main.js",
   "types": "build/dist/main.d.ts",
+  "homepage": "https://github.com/Heniker/webpack-file-alias",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Heniker/webpack-file-alias.git"
+  },
   "scripts": {
     "test": "",
-    "prepublishOnly": "npm run build",
+    "prepublish": "npm run build",
     "build": "cd build & npx webpack"
   },
   "dependencies": {},
