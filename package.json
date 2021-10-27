@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "main": "build/dist/main.js",
   "scripts": {
+    "postinstall": "npm run build",
     "build": "cd build & npx webpack"
   },
   "dependencies": {
