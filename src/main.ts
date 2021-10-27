@@ -8,15 +8,15 @@ import { ResolvePluginInstance, Resolver, ResolveRequest } from './types/plugin'
 
 type HandlerT = (arg: string) => Record<string, string>
 
-const memoizeFindUp = memoize(findUpMultiple, (...arg: any[]) => arg.join(''))
+const memoizeFindUp = memoize(findUpMultiple, (...arg: any[]) => arg[0] + arg[1].cwd)
 
-export class FileAlias implements ResolvePluginInstance {
+export class FileAliasPlugin implements ResolvePluginInstance {
   extractors: Record<string, HandlerT> = {}
-  defaultAlias: Record<string, string>
-  options: { ignore: string[] }
-  pathToAliasMap: Map<string, Record<string, string>>
-  source: string
-  target: string
+  private defaultAlias: Record<string, string>
+  private options: { ignore: string[] }
+  private pathToAliasMap: Map<string, Record<string, string>>
+  private source: string
+  private target: string
 
   registerExtractor(extractor: { name: string; handler: HandlerT }) {
     this.extractors[extractor.name] = extractor.handler
@@ -50,14 +50,18 @@ export class FileAlias implements ResolvePluginInstance {
       return {}
     }
 
+    // console.log('dataPath')
+    // console.log(dataPath)
+    // console.log(Object.keys(this.extractors))
+
     const aliasesArr: Record<string, string>[] = await asyncFlatMap(
       Object.keys(this.extractors),
-      async (it: string) =>
-        (
-          await memoizeFindUp(it, { cwd: dataPath })
-        ).map(
+      async (it: string) => {
+        const locations = await memoizeFindUp(it, { cwd: dataPath })
+        return locations.map(
           (it) => it && this.extractors[path.basename(it)] && this.extractors[path.basename(it)](it)
         )
+      }
     )
 
     const result = {}
@@ -89,6 +93,15 @@ export class FileAlias implements ResolvePluginInstance {
     if (!alias[requestSegements[0]]) {
       return false
     }
+
+    console.log('dataPath')
+    console.log(dataPath)
+    console.log(requestSegements)
+    console.log(alias[requestSegements[0]])
+    console.log(
+      alias[requestSegements[0]] +
+        (requestSegements.length > 1 ? path.sep + requestSegements.slice(1).join(path.sep) : '')
+    )
 
     data.request =
       alias[requestSegements[0]] +

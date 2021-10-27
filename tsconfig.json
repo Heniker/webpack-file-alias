@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "lib": ["ESNext", "ES6"],
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "skipLibCheck": true,
+    "module": "ES2020",
     "sourceMap": true,
     "strict": true,
-    "target": "ESNext",
+    "target": "ES2021",
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "declaration": true,
-    "outDir": "./build/dist/lib"
+    "declarationMap": true,
+    "resolveJsonModule": true,
+    "outDir": "build/dist"
   },
   "include": ["src"]
 }

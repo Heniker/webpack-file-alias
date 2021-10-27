@@ -1,7 +1,4 @@
 {
-  "typeAcquisition": {},
-  "references": [],
-  "buildOptions": {},
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

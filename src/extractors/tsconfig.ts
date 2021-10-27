@@ -7,12 +7,36 @@ import { PLUGIN_NAME } from '../env'
 const extractorName = 'tsconfig.json'
 
 const handler = (filePath: string) => {
+  // console.log('filePath')
+  // console.log(filePath)
+
   assert(
     fs.existsSync(filePath),
-    `${PLUGIN_NAME}: ${extractorName} extractor: path ${chalk.inverse(filePath)} does not exists`
+    `${chalk.blue(PLUGIN_NAME)}: ${chalk.green(extractorName)} extractor: path ${chalk.inverse(
+      filePath
+    )} does not exist`
   )
-  const { paths, baseUrl } =
-    (require(filePath).compilerOptions as import('typescript').CompilerOptions) || {}
+
+  const { paths, baseUrl } = (() => {
+    try {
+      return (
+        (JSON.parse(fs.readFileSync(filePath).toString())
+          .compilerOptions as import('typescript').CompilerOptions) || {}
+      )
+    } catch (err) {
+      throw new Error(
+        `${chalk.blue(PLUGIN_NAME)}: ${chalk.green(
+          extractorName
+        )} extractor: unable to parse ${chalk.inverse(filePath)}`
+      )
+    }
+  })()
+
+  // console.log(JSON.parse(fs.readFileSync(filePath).toString()))
+
+  // console.log('paths:')
+  // console.log(paths)
+  // console.log(baseUrl)
 
   if (!baseUrl || !paths) {
     return {}
@@ -23,7 +47,9 @@ const handler = (filePath: string) => {
       .filter(([pathKey, pathValues]) => {
         if (pathValues.length !== 1) {
           console.warn(
-            `${PLUGIN_NAME}: ${extractorName} extractor: Multiple paths are not supported. \
+            `${chalk.blue(PLUGIN_NAME)}: ${chalk.green(
+              extractorName
+            )} extractor: Multiple paths are not supported. \
             Ignoring key - ${chalk.red(pathKey)} in ${chalk.inverse(filePath)} file`
           )
 
@@ -36,8 +62,8 @@ const handler = (filePath: string) => {
         const pathVal = pathValues[0]
 
         assert(
-          pathKey && pathVal,
-          `${PLUGIN_NAME}: ${extractorName} extractor: Invalid paths in \
+          pathKey && pathVal && typeof pathKey === 'string' && typeof pathVal === 'string',
+          `${chalk.blue(PLUGIN_NAME)}: ${chalk.green(extractorName)} extractor: Invalid paths in \
           "${chalk.inverse(filePath)}" file`
         )
 
