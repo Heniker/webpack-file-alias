@@ -30,6 +30,9 @@ const config = {
         exclude: /node_modules/,
         use: [
           {
+            options: {
+              transpileOnly: true,
+            },
             loader: 'ts-loader',
           },
         ],

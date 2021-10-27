@@ -1,2 +1,2 @@
-import('./project-a/main').then((it) => it.init())
-import('./project-b/main').then((it) => it.init())
+import('@a/main').then((it) => it.init())
+import('@b/main').then((it) => it.init())

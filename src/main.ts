@@ -24,13 +24,14 @@ export class FileAliasPlugin implements ResolvePluginInstance {
 
   apply(resolver: Resolver) {
     const target = resolver.ensureHook(this.target)
-    resolver.getHook(this.source).tapAsync(PLUGIN_NAME, async (data, resolveContext, callback) => {
-      if (await this.updateRequest(data)) {
-        resolver.doResolve(target, data, null, resolveContext, callback)
-        return
-      }
-      callback()
-    })
+    resolver
+      .getHook(this.source)
+      .tapAsync({ name: PLUGIN_NAME }, async (request, resolveContext, callback) => {
+        if (await this.updateRequest(request)) {
+          return resolver.doResolve(target, request, null, resolveContext, callback)
+        }
+        return callback()
+      })
   }
 
   constructor(defaultAlias = {}, pathToAliasMap = new Map(), options = {}) {
@@ -93,15 +94,6 @@ export class FileAliasPlugin implements ResolvePluginInstance {
     if (!alias[requestSegements[0]]) {
       return false
     }
-
-    console.log('dataPath')
-    console.log(dataPath)
-    console.log(requestSegements)
-    console.log(alias[requestSegements[0]])
-    console.log(
-      alias[requestSegements[0]] +
-        (requestSegements.length > 1 ? path.sep + requestSegements.slice(1).join(path.sep) : '')
-    )
 
     data.request =
       alias[requestSegements[0]] +

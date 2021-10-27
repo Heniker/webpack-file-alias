@@ -14,27 +14,17 @@ This plugin solves this issue by introducing file-relative aliases.
 
 ## How to use
 
-Example creating aliases for specific glob pattern:
+A use-case I had in mind for this plugin is extracting aliases from multiple `tsconfig.json` files.
+
+If that's what you're looking for, you don't need to configure anything in order for it to work:
 
 ```js
-cosnt FileAliasPlugin = require('file-alias-webpack-plugin')
-const glob = require('glob')
-
-const plugin = new FileAliasPlugin(
-  {},
-  {},
-  new Map([
-    ...glob
-      .sync(`project1/**/`, { ignore: '**/node_modules/**' })
-      .map((it) => [it, {@: project1Config.projectPath}]),
-    ...glob
-      .sync(`project2/**/`, { ignore: '**/node_modules/**' })
-      .map((it) => [it, {@: project2Config.projectPath}]),
-  ])
-)
+const FileAliasPlugin = require('file-alias-webpack-plugin')
+const plugin = new FileAliasPlugin()
 
 module.exports = {
   resolve: {
+    // Place it in resolve.plugins, not in regular plugins
     plugins: [
       plugin,
     ],
@@ -42,52 +32,12 @@ module.exports = {
 }
 ```
 
-You can also specify names of special files that define your **project root** and extract your aliases from them.
+## TypeScript support
 
-```js
-const plugin = new FileAliasPlugin({})
+You should have typescript typings avaliable once you install this plugin.
 
-plugin.extractors['package.json'] = (packageJsonPath) => {
-  const packageConfig = require(packageJsonPath)
-  // return value format should be the same as webpack resolve.alias
-  return packageConfig._moduleAliases
-}
-```
+## Todo
 
-This code will resolve aliases for all files under the directory where `package.json` was found according to `_moduleAlias` field in `package.json`.
+Right now project uses webpack for compatibility reasons (esm support is weird). The project is small, so that's not a big deal. But there is no reason to use webpack to bundle a library.
 
-## Options
-
-### DirectoryBasedPlugin(defaultAlias, options, pathToAliasMap?)
-
-#### defaultAlias
-
-Type: `object`
-
-Default aliases that are used to resolve every compiled file. Uses the same format as webpack `resolve.alias`. Can be overridden by aliases found in `options.aliasRoots` and `options.pathToAliasMap`.
-
-#### options
-
-##### options.aliasRoots
-
-Type: `Array<string>`
-
-Default: [`tsconfig.json`]
-
-Files that include extractable aliases. The plugin will use `plugin.extractors` to extract aliases from them and use extracted aliases to resolve all files under the directory where `aliasRoot` was found.
-
-##### options.ignore
-
-Type: `Array<string>`
-
-Default: [`node_modules`]
-
-Array of substrings that, if found in compiled file path, are excluded from this plugin aliasing.
-
-#### pathToAliasMap
-
-Type: `Map<string, string>`
-
-Default: `new Map()`
-
-Defines alias for specific file. Overrides all other options.
+For more complex use-cases you might have to set `transpileOnly: true` for `ts-loader`. `ts-loader` uses it's own path-resolver in order to type-check typescript code. This needs to be solved, possibly by using [resolveModuleName](https://github.com/TypeStrong/ts-loader#resolvemodulename-and-resolvetypereferencedirective).
