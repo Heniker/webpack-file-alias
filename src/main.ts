@@ -102,3 +102,5 @@ export class FileAliasPlugin implements ResolvePluginInstance {
     return true
   }
 }
+
+export default FileAliasPlugin
