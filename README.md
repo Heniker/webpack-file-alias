@@ -4,11 +4,11 @@ Use this plugin to specify aliases for single or multiple files and optionally d
 
 ## Why?
 
-Webpack doesn't allow you to create aliases for specific file.
+Webpack cannot create aliases for specific file.
 
 For example, imagine you have 2 entry points, _A_ and _B_ in your webpack config which are basically separate projects. They do not import anything from each other, but they share some files in `common` folder (standard real-life monorepo structure).
 
-If you use aliases you might find it natural to use `@` symbol to reference the root of your project. But you can't specify `@` to mean project _A_ root and project _B_ root at the same time depending on where it referenced from in a single config file.
+If you use aliases you might find it natural to use `@` symbol to reference the root of your project. But you can't specify `@` to mean project _A_ root and project _B_ root at the same time depending on where it is referenced from in a single config file.
 
 This plugin solves this issue by introducing file-relative aliases.
 
@@ -17,17 +17,18 @@ This plugin solves this issue by introducing file-relative aliases.
 Example creating aliases for specific glob pattern:
 
 ```js
+cosnt FileAliasPlugin = require('file-alias-webpack-plugin')
 const glob = require('glob')
 
-const plugin = new DirectoryBasedPlugin(
+const plugin = new FileAliasPlugin(
   {},
   {},
   new Map([
     ...glob
-      .sync(`${project1Config.projectPath}/**/`, { ignore: '**/node_modules/**' })
+      .sync(`project1/**/`, { ignore: '**/node_modules/**' })
       .map((it) => [it, {@: project1Config.projectPath}]),
     ...glob
-      .sync(`${project2Config.projectPath}/**/`, { ignore: '**/node_modules/**' })
+      .sync(`project2/**/`, { ignore: '**/node_modules/**' })
       .map((it) => [it, {@: project2Config.projectPath}]),
   ])
 )
@@ -44,7 +45,7 @@ module.exports = {
 You can also specify names of special files that define your **project root** and extract your aliases from them.
 
 ```js
-const plugin = new DirectoryBasedPlugin({}, { aliasRoots: ['package.json'] })
+const plugin = new FileAliasPlugin({})
 
 plugin.extractors['package.json'] = (packageJsonPath) => {
   const packageConfig = require(packageJsonPath)
