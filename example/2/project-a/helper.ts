@@ -1,1 +1,0 @@
-export const magicString = 'Hello from project-a helper'

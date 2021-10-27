@@ -1,1 +1,0 @@
-export const commonMagicString = 'Hello from common file'
