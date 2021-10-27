@@ -4,6 +4,7 @@
   "author": "Heniker",
   "version": "1.0.0",
   "main": "build/dist/main.js",
+  "types": "build/dist/main.d.ts",
   "scripts": {
     "test": "",
     "build": "cd build & npx webpack"
@@ -26,6 +27,7 @@
     "webpack-cli": "^4.9.1"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ]
 }
