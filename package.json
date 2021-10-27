@@ -2,7 +2,7 @@
   "name": "@heniker/file-alias-webpack-plugin",
   "description": "File-specific aliases for webpack",
   "author": "Heniker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/dist/main.js",
   "types": "build/dist/main.d.ts",
   "scripts": {
