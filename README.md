@@ -39,6 +39,6 @@ You should have typescript typings avaliable once you install this plugin.
 
 ## Todo
 
-Right now project uses webpack for compatibility reasons (esm support is weird). The project is small, so that's not a big deal. But there is no reason to use webpack to bundle a library.
+Right now project uses webpack for compatibility reasons (esm support is weird). The project is small, so that's not a big deal. But there is no good enough reason to use webpack to bundle a library.
 
 For more complex use-cases you might have to set `transpileOnly: true` for `ts-loader`. `ts-loader` uses it's own path-resolver in order to type-check typescript code. This needs to be solved, possibly by using [resolveModuleName](https://github.com/TypeStrong/ts-loader#resolvemodulename-and-resolvetypereferencedirective).
