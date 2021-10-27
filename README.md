@@ -31,6 +31,7 @@ module.exports = {
   },
 }
 ```
+See [example/2](https://github.com/Heniker/webpack-file-alias/tree/master/example/2) for 'real-world' example.
 
 ## TypeScript support
 
