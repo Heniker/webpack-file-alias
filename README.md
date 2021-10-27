@@ -12,6 +12,11 @@ If you use aliases you might find it natural to use `@` symbol to reference the 
 
 This plugin solves this issue by introducing file-relative aliases.
 
+## Installation
+```
+npm i @heniker/file-alias-webpack-plugin
+```
+
 ## How to use
 
 A use-case I had in mind for this plugin is extracting aliases from multiple `tsconfig.json` files.
